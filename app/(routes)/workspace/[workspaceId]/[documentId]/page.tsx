@@ -1,9 +1,26 @@
-import React from 'react'
+"use client";
 
-const WorkspaceDocumentPage = () => {
+import React, { useEffect } from "react";
+import SideNavComponent from "../../_components/SideNav";
+
+type PageParams = {
+  workspaceId: string;
+  documentId: string;
+};
+
+const WorkspaceDocumentPage = ({ params }: { params: PageParams }) => {
+  
   return (
-    <div>Workspace Page</div>
-  )
-}
+    <div>
+      {/* Side Nav */}
+      <div className="">
+        <SideNavComponent params={params} />
+      </div>
 
-export default WorkspaceDocumentPage
+      {/* Document */}
+      <div className="md:ml-72">Document</div>
+    </div>
+  );
+};
+
+export default WorkspaceDocumentPage;
