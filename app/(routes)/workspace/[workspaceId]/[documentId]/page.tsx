@@ -1,9 +1,9 @@
 import React from 'react'
 
-const WorkspacePage = () => {
+const WorkspaceDocumentPage = () => {
   return (
     <div>Workspace Page</div>
   )
 }
 
-export default WorkspacePage
+export default WorkspaceDocumentPage
