@@ -46,6 +46,11 @@ const CreateWorkspace = () => {
         documentOutput: []
       })
 
+      await setDoc(doc(db, 'DocumentOutputs', docID), {
+        docID,
+        output: []
+      })
+
       setEmoji("");
       setWorkspaceName("");
       setCover("/cover.jpg");
