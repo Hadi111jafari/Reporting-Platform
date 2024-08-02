@@ -41,11 +41,7 @@ const WorkspaceListComponent = () => {
           />
           <h2>Create new workspace</h2>
           <Link href={"/workspace/new"}>
-            <Button
-              className=""
-            >
-              + New Workspace
-            </Button>
+            <Button className="">+ New Workspace</Button>
           </Link>
         </div>
       )}
