@@ -3,9 +3,21 @@
 import LogoComponent from "@/app/_components/Logo";
 import { Button } from "@/components/ui/button";
 import { db } from "@/config/firebase";
-import { collection, DocumentData, onSnapshot, query, where } from "firebase/firestore";
-import { Bell } from "lucide-react";
+import {
+  collection,
+  doc,
+  DocumentData,
+  onSnapshot,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
+import { Bell, Loader2Icon } from "lucide-react";
 import React, { useCallback, useEffect, useState } from "react";
+import DocumentListComponent from "./DocumentList";
+import { useUser } from "@clerk/nextjs";
+import uuid4 from "uuid4";
+import { useRouter } from "next/navigation";
 
 const SideNavComponent = ({
   params,
@@ -13,18 +25,51 @@ const SideNavComponent = ({
   params: { workspaceId: string; documentId: string };
 }) => {
   const [documentList, setDocumentList] = useState<DocumentData[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const getDocumentList = useCallback(() => {
     const q = query(
       collection(db, "WorkspaceDocuments"),
       where("workspaceID", "==", params.workspaceId)
     );
 
+    setDocumentList([]);
+
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       for (const doc of querySnapshot.docs) {
-        setDocumentList((prev) => [...prev, doc.data()])
+        setDocumentList((prev) => [...prev, doc.data()]);
       }
     });
   }, [params.workspaceId]);
+
+  const { user } = useUser();
+  const router = useRouter();
+
+  const addDocument = async () => {
+    setIsLoading(true);
+    try {
+      const docID = uuid4();
+      await setDoc(doc(db, "WorkspaceDocuments", docID), {
+        workspaceID: params.workspaceId,
+        createdBy: user?.primaryEmailAddress?.emailAddress,
+        coverImage: null,
+        emoji: null,
+        id: docID,
+        documentOutput: [],
+        documentName: "Untitled Document",
+      });
+
+      await setDoc(doc(db, "DocumentOutputs", docID), {
+        docID,
+        output: [],
+      });
+      router.replace(`/workspace/${params.workspaceId}/${docID}`);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     getDocumentList();
@@ -40,9 +85,20 @@ const SideNavComponent = ({
       <div>
         <div className="flex justify-between items-center">
           <h2 className="font-medium">Workspace Name</h2>
-          <Button size={"sm"}>+</Button>
+          <Button
+            size={"sm"}
+            onClick={addDocument}
+          >
+            {isLoading ? <Loader2Icon className="animate-spin w-4 h-4" /> : <>+</>}
+          </Button>
         </div>
       </div>
+
+      {/* Document list */}
+      <DocumentListComponent
+        documentList={documentList}
+        params={params}
+      />
     </div>
   );
 };
