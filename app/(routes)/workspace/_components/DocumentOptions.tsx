@@ -1,4 +1,9 @@
-import { Link2Icon, MoreVerticalIcon, PenBoxIcon, Trash2Icon } from "lucide-react";
+import {
+  Link2Icon,
+  MoreVerticalIcon,
+  PenBoxIcon,
+  Trash2Icon,
+} from "lucide-react";
 import React from "react";
 
 import {
@@ -7,8 +12,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DocumentData } from "firebase/firestore";
 
-const DocumentOptionsComponent = () => {
+const DocumentOptionsComponent = ({
+  doc,
+  onDeleteDocument,
+}: {
+  doc: DocumentData;
+  onDeleteDocument: (docId: string) => void;
+}) => {
   return (
     <div>
       <DropdownMenu>
@@ -24,7 +36,10 @@ const DocumentOptionsComponent = () => {
             <PenBoxIcon className="w-4 h-4" />
             Rename
           </DropdownMenuItem>
-          <DropdownMenuItem className="flex gap-2 items-center text-red-500">
+          <DropdownMenuItem
+            className="flex gap-2 items-center text-red-500"
+            onClick={() => onDeleteDocument(doc.id)}
+          >
             <Trash2Icon className="w-4 h-4" />
             Delete
           </DropdownMenuItem>

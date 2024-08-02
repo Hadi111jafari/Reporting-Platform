@@ -1,8 +1,10 @@
-import { DocumentData } from "firebase/firestore";
+import { deleteDoc, doc, DocumentData } from "firebase/firestore";
 import { FileClockIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import DocumentOptionsComponent from "./DocumentOptions";
+import { db } from "@/config/firebase";
+import { toast } from "sonner";
 
 const DocumentListComponent = ({
   documentList,
@@ -12,6 +14,17 @@ const DocumentListComponent = ({
   params: { workspaceId: string; documentId: string };
 }) => {
   const router = useRouter();
+
+  const onDeleteDocument = async (docId: string) => {
+    console.info("Delete document", docId);
+    try {
+      await deleteDoc(doc(db, "WorkspaceDocuments", docId));
+      toast.success("Document deleted successfully");
+    } catch (error) {
+      toast.error("Failed to delete document");
+    }
+  };
+
   return (
     <div>
       {documentList.map((doc, index) => {
@@ -32,7 +45,10 @@ const DocumentListComponent = ({
                 {doc.documentName}
               </h2>
             </div>
-            <DocumentOptionsComponent />
+            <DocumentOptionsComponent
+              doc={doc}
+              onDeleteDocument={(docId) => onDeleteDocument(docId)}
+            />
           </div>
         );
       })}
