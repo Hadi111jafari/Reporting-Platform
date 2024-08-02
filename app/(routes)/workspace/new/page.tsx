@@ -8,6 +8,7 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { doc, setDoc } from "firebase/firestore";
 import { LoaderCircle, SmilePlus } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const CreateWorkspace = () => {
@@ -18,6 +19,8 @@ const CreateWorkspace = () => {
 
   const { user } = useUser();
   const { orgId } = useAuth();
+
+  const router = useRouter();
 
   const OnCreateWorkspace = async () => {
     setIsLoading(true);
@@ -35,6 +38,8 @@ const CreateWorkspace = () => {
       setEmoji("");
       setWorkspaceName("");
       setCover("/cover.jpg");
+
+      router.replace(`/workspace/${docID}`);
 
       console.info("Workspace created successfully");
     } catch (error) {
