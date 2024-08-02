@@ -3,7 +3,10 @@ import CoverPickerComponent from "@/app/_components/CoverPicker";
 import EmojiPickerComponent from "@/app/_components/EmojiPickerComponent";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SmilePlus } from "lucide-react";
+import { db } from "@/config/firebase";
+import { useAuth, useUser } from "@clerk/nextjs";
+import { doc, setDoc } from "firebase/firestore";
+import { LoaderCircle, SmilePlus } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -11,6 +14,35 @@ const CreateWorkspace = () => {
   const [cover, setCover] = useState("/cover.jpg");
   const [workspaceName, setWorkspaceName] = useState("");
   const [emoji, setEmoji] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { user } = useUser();
+  const { orgId } = useAuth();
+
+  const OnCreateWorkspace = async () => {
+    setIsLoading(true);
+    try {
+      const docID = Math.random().toString(36).substring(2, 9);
+      await setDoc(doc(db, "Workspaces", docID), {
+        workspaceName,
+        emoji,
+        coverURL: cover,
+        createdBy: user?.primaryEmailAddress?.emailAddress,
+        id: docID,
+        orgId: orgId ? orgId : user?.primaryEmailAddress?.emailAddress,
+      });
+
+      setEmoji("");
+      setWorkspaceName("");
+      setCover("/cover.jpg");
+
+      console.info("Workspace created successfully");
+    } catch (error) {
+      console.error("Error creating workspace", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="p-10 md:px-36 lg:px-64 xl:px-96 py-28">
@@ -58,7 +90,14 @@ const CreateWorkspace = () => {
           </div>
 
           <div className="mt-7 flex justify-end gap-2">
-            <Button disabled={!workspaceName}>Create</Button>
+            <Button
+              disabled={!workspaceName || isLoading}
+              onClick={OnCreateWorkspace}
+              className="flex gap-2"
+            >
+              <span>Create</span>
+              {isLoading && <LoaderCircle className="animate-spin" />}
+            </Button>
             <Button variant={"outline"}>Cancel</Button>
           </div>
         </div>
