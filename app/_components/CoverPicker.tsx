@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Dialog,
@@ -14,7 +14,9 @@ import Image from "next/image";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
 
-const CoverPickerComponent = ({ children }: { children: React.ReactNode }) => {
+const CoverPickerComponent = ({ children, onHandleSelectedCover }: { children: React.ReactNode, onHandleSelectedCover: (coverURL: string) => void }) => {
+  const [selectedCover, setSelectedCover] = useState("");
+
   return (
     <Dialog>
       <DialogTrigger className="w-full">{children}</DialogTrigger>
@@ -24,13 +26,21 @@ const CoverPickerComponent = ({ children }: { children: React.ReactNode }) => {
           <DialogDescription>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-3">
               {coverOptions.map((cover, index) => (
-                <div key={index}>
+                <div
+                  key={index}
+                  onClick={() => setSelectedCover(cover.imageURL)}
+                  className={`p-[1px] border-[3px] rounded-lg ${
+                    selectedCover === cover.imageURL
+                      ? "border-primary "
+                      : "border-transparent"
+                  }`}
+                >
                   <Image
                     src={cover.imageURL}
                     alt="cover"
                     width={200}
                     height={140}
-                    className="h-[70px] object-cover rounded-md w-full"
+                    className="h-[70px] object-cover rounded-md w-full cursor-pointer"
                   />
                 </div>
               ))}
@@ -47,7 +57,12 @@ const CoverPickerComponent = ({ children }: { children: React.ReactNode }) => {
             </Button>
           </DialogClose>
           <DialogClose asChild>
-            <Button type="button">Update</Button>
+            <Button
+              type="button"
+              onClick={() => onHandleSelectedCover(selectedCover)}
+            >
+              Update
+            </Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
