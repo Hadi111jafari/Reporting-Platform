@@ -1,4 +1,4 @@
-const images = [
+export const coverOptions = [
   {
     imageURL: 'https://img.freepik.com/fotos-gratis/fundo-fluido-gradiente-3d_23-2150499051.jpg?w=1060'
   },
@@ -12,5 +12,3 @@ const images = [
     imageURL: 'https://img.freepik.com/fotos-gratis/fundo-fluido-gradiente-3d_23-2150499053.jpg?&w=1060'
   },
 ]
-
-export default images
