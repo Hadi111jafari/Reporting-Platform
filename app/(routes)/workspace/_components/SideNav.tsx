@@ -18,6 +18,8 @@ import DocumentListComponent from "./DocumentList";
 import { useUser } from "@clerk/nextjs";
 import uuid4 from "uuid4";
 import { useRouter } from "next/navigation";
+import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
 
 const SideNavComponent = ({
   params,
@@ -26,6 +28,8 @@ const SideNavComponent = ({
 }) => {
   const [documentList, setDocumentList] = useState<DocumentData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const MAX_FILE = 5;
 
   const getDocumentList = useCallback(() => {
     const q = query(
@@ -46,6 +50,19 @@ const SideNavComponent = ({
   const router = useRouter();
 
   const addDocument = async () => {
+    if (documentList.length >= MAX_FILE) {
+      toast.error("Upgrade to add more files", {
+        description: "You have reached the maximum limit of files. Upgrade your plan to add unlimited files",
+        action: {
+          label: "Upgrade",
+          onClick: () => {
+            console.info("Upgrade plan");
+          },
+        },
+      });
+      return;
+    }
+
     setIsLoading(true);
     try {
       const docID = uuid4();
@@ -89,7 +106,11 @@ const SideNavComponent = ({
             size={"sm"}
             onClick={addDocument}
           >
-            {isLoading ? <Loader2Icon className="animate-spin w-4 h-4" /> : <>+</>}
+            {isLoading ? (
+              <Loader2Icon className="animate-spin w-4 h-4" />
+            ) : (
+              <>+</>
+            )}
           </Button>
         </div>
       </div>
@@ -99,6 +120,18 @@ const SideNavComponent = ({
         documentList={documentList}
         params={params}
       />
+
+      {/* Progress Bar */}
+      <div className="absolute bottom-10 w-[85%]">
+        <Progress value={(documentList.length / MAX_FILE) * 100} />
+        <h2 className="text-sm font-light my-2">
+          <strong>{documentList.length}</strong> Out of <strong>5</strong> Files
+          used
+        </h2>
+        <h2 className="text-sm font-light">
+          Upgrade your plan to add more files
+        </h2>
+      </div>
     </div>
   );
 };
