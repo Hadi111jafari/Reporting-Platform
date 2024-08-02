@@ -2,6 +2,7 @@ import { DocumentData } from "firebase/firestore";
 import { FileClockIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
+import DocumentOptionsComponent from "./DocumentOptions";
 
 const DocumentListComponent = ({
   documentList,
@@ -20,7 +21,7 @@ const DocumentListComponent = ({
               router.push(`/workspace/${params.workspaceId}/${doc.id}`)
             }
             key={index}
-            className={`mt-3 p-2 px-2 hover:bg-gray-200 rounded-lg cursor-pointer ${
+            className={`mt-3 p-2 px-2 hover:bg-gray-200 rounded-lg cursor-pointer flex justify-between items-center ${
               doc.id === params.documentId ? "bg-white" : ""
             }`}
           >
@@ -31,6 +32,7 @@ const DocumentListComponent = ({
                 {doc.documentName}
               </h2>
             </div>
+            <DocumentOptionsComponent />
           </div>
         );
       })}
