@@ -43,7 +43,8 @@ const CreateWorkspace = () => {
         coverImage: null,
         emoji: null,
         id: docID,
-        documentOutput: []
+        documentOutput: [],
+        documentName: 'Untitled Document',
       })
 
       await setDoc(doc(db, 'DocumentOutputs', docID), {
