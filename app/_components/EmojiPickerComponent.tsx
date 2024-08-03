@@ -12,7 +12,7 @@ const EmojiPickerComponent = ({
 
   return (
     <div>
-      <div onClick={() => setIsOpened(true)}>{children}</div>
+      <div onClick={() => setIsOpened(prev => !prev)}>{children}</div>
       {isOpened && (
         <div className="absolute z-10">
           <EmojiPicker
