@@ -37,9 +37,9 @@ const SideNavComponent = ({
       where("workspaceID", "==", params.workspaceId)
     );
 
-    setDocumentList([]);
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      setDocumentList([]);
       for (const doc of querySnapshot.docs) {
         setDocumentList((prev) => [...prev, doc.data()]);
       }
