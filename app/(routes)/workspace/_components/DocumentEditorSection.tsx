@@ -14,10 +14,10 @@ const DocumentEditorSectionComponent = ({
 
       <DocumentHeaderComponent />
 
-      <DocumentInfoComponent params={params}/>
+      <DocumentInfoComponent params={params} />
 
       {/* Rich Text Editor */}
-      <DocumentRichEditorComponent />
+      <DocumentRichEditorComponent documentId={params.documentId} />
     </div>
   );
 };
