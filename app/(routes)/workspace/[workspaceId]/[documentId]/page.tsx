@@ -10,7 +10,6 @@ type PageParams = {
 };
 
 const WorkspaceDocumentPage = ({ params }: { params: PageParams }) => {
-  
   return (
     <div>
       {/* Side Nav */}
@@ -20,7 +19,7 @@ const WorkspaceDocumentPage = ({ params }: { params: PageParams }) => {
 
       {/* Document */}
       <div className="md:ml-72">
-        <DocumentEditorSectionComponent />
+        <DocumentEditorSectionComponent params={params} />
       </div>
     </div>
   );
