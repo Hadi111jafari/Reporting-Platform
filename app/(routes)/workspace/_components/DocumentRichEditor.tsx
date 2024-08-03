@@ -11,22 +11,31 @@ import ImageTool from "@editorjs/simple-image";
 import LinkTool from "@editorjs/link";
 import TableTool from "@editorjs/table";
 import CodeTool from "@editorjs/code";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "@/config/firebase";
 
-const DocumentRichEditorComponent = () => {
+const DocumentRichEditorComponent = ({
+  documentId,
+}: {
+  documentId: string;
+}) => {
   const editorRef = useRef<EditorJS | null>(null);
 
   const saveDocument = async () => {
     if (editorRef.current) {
       const data = await editorRef.current.save();
-      console.log(data);
+      const docRef = doc(db, "DocumentOutputs", documentId);
+      await updateDoc(docRef, {
+        output: data,
+      });
     }
-  }
+  };
 
   const initializeEditor = () => {
     if (!editorRef.current) {
       editorRef.current = new EditorJS({
-        onChange: (ap, event) => {
-          console.log("EditorJS onChange", ap, event);
+        onChange: () => {
+          saveDocument();
         },
         holder: "editorjs",
         tools: {
