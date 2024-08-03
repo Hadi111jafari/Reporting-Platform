@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import SideNavComponent from "../../_components/SideNav";
+import DocumentEditorSectionComponent from "../../_components/DocumentEditorSection";
 
 type PageParams = {
   workspaceId: string;
@@ -18,7 +19,9 @@ const WorkspaceDocumentPage = ({ params }: { params: PageParams }) => {
       </div>
 
       {/* Document */}
-      <div className="md:ml-72">Document</div>
+      <div className="md:ml-72">
+        <DocumentEditorSectionComponent />
+      </div>
     </div>
   );
 };
