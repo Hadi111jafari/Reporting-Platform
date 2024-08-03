@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import EditorJS from "@editorjs/editorjs";
 import Header from "@editorjs/header";
 import Delimiter from "@editorjs/delimiter";
@@ -21,7 +21,7 @@ const DocumentRichEditorComponent = ({
 }) => {
   const editorRef = useRef<EditorJS | null>(null);
 
-  const saveDocument = async () => {
+  const saveDocument = useCallback(async () => {
     if (editorRef.current) {
       const data = await editorRef.current.save();
       const docRef = doc(db, "DocumentOutputs", documentId);
@@ -29,9 +29,9 @@ const DocumentRichEditorComponent = ({
         output: data,
       });
     }
-  };
+  }, [documentId]);
 
-  const initializeEditor = () => {
+  const initializeEditor = useCallback(() => {
     if (!editorRef.current) {
       editorRef.current = new EditorJS({
         onChange: () => {
@@ -53,11 +53,11 @@ const DocumentRichEditorComponent = ({
         },
       });
     }
-  };
+  }, [saveDocument]);
 
   useEffect(() => {
     initializeEditor();
-  }, []);
+  }, [initializeEditor]);
 
   return (
     <div className="">
