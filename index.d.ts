@@ -1,0 +1,9 @@
+declare module '@editorjs/delimiter';
+declare module 'editorjs-alert';
+declare module '@editorjs/quote';
+declare module '@alkhipce/editorjs-aitext';
+declare module '@editorjs/checklist';
+declare module '@editorjs/simple-image';
+declare module '@editorjs/link';
+declare module '@editorjs/table';
+declare module '@editorjs/code';

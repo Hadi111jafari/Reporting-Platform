@@ -1,6 +1,7 @@
 import React from "react";
 import DocumentHeaderComponent from "./DocumentHeader";
 import DocumentInfoComponent from "./DocumentInfo";
+import DocumentRichEditorComponent from "./DocumentRichEditor";
 
 const DocumentEditorSectionComponent = ({
   params,
@@ -16,6 +17,7 @@ const DocumentEditorSectionComponent = ({
       <DocumentInfoComponent params={params}/>
 
       {/* Rich Text Editor */}
+      <DocumentRichEditorComponent />
     </div>
   );
 };
