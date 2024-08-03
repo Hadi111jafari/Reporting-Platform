@@ -1,9 +1,12 @@
 import CoverPickerComponent from "@/app/_components/CoverPicker";
+import EmojiPickerComponent from "@/app/_components/EmojiPickerComponent";
+import { SmilePlusIcon } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 
 const DocumentInfoComponent = () => {
   const [cover, setCover] = useState("/cover.jpg");
+  const [emoji, setEmoji] = useState("");
 
   return (
     <div>
@@ -29,6 +32,18 @@ const DocumentInfoComponent = () => {
       </CoverPickerComponent>
 
       {/* Emoji Picker */}
+
+      <div className="absolute ml-10 mt-[-35px] cursor-pointer">
+        <EmojiPickerComponent setEmojiIcon={(v) => setEmoji(v)}>
+          <div className="bg-[#ffffffb0] p-4 rounded-md">
+            {emoji ? (
+              <span className="text-5xl">{emoji}</span>
+            ) : (
+              <SmilePlusIcon className="w-10 h-10 text-gray-500" />
+            )}
+          </div>
+        </EmojiPickerComponent>
+      </div>
 
       {/* File Name */}
     </div>
