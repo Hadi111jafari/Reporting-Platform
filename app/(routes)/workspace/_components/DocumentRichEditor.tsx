@@ -14,6 +14,7 @@ import CodeTool from "@editorjs/code";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "@/config/firebase";
 import { useUser } from "@clerk/nextjs";
+import GenerateTemplateFromAIComponent from "./GenerateTemplateFromAI";
 
 const DocumentRichEditorComponent = ({
   documentId,
@@ -50,7 +51,7 @@ const DocumentRichEditorComponent = ({
           if (data) {
             setDocumentOutput(data.output);
             if (editorRef.current) {
-              editorRef.current.render({ blocks: JSON.parse(data.output) });
+              editorRef.current.render({ blocks: JSON.parse(data.output ?? []) });
             }
           }
         }
@@ -93,6 +94,13 @@ const DocumentRichEditorComponent = ({
   return (
     <div className="">
       <div id="editorjs"></div>
+      <div className="fixed bottom-6 md:ml-80 left-0 z-10">
+        <GenerateTemplateFromAIComponent setGeneratedTemplate={template => {
+          console.log("Generated template: ", template)
+          // @ts-ignore
+          editorRef?.current?.render({ blocks: template.blocks })
+        }} />
+      </div>
     </div>
   );
 };
