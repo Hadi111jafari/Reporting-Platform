@@ -23,13 +23,12 @@ const DocumentRichEditorComponent = ({
   const editorRef = useRef<EditorJS | null>(null);
   const [documentOutput, setDocumentOutput] = useState([]);
 
-  let isFetched = false;
-
   const { user } = useUser();
 
   const saveDocument = useCallback(async () => {
     if (editorRef.current) {
       const data = await editorRef.current.save();
+      if (!data || !data.blocks.length) return;
       const docRef = doc(db, "DocumentOutputs", documentId);
       try {
         await updateDoc(docRef, {

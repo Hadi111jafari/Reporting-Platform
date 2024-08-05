@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 
 import { ClerkProvider } from "@clerk/nextjs";
 
+import "@liveblocks/react-ui/styles.css";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 

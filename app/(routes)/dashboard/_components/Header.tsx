@@ -9,7 +9,6 @@ import {
 } from "@clerk/nextjs";
 import { doc, setDoc } from "firebase/firestore";
 import React, { useCallback, useEffect } from "react";
-import uuid4 from "uuid4";
 
 const HeaderComponent = () => {
   const { user } = useUser();
