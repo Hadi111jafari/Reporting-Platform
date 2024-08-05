@@ -20,6 +20,7 @@ import uuid4 from "uuid4";
 import { useRouter } from "next/navigation";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
+import NotificationBoxComponent from "./NotificationBox";
 
 const SideNavComponent = ({
   params,
@@ -37,7 +38,6 @@ const SideNavComponent = ({
       where("workspaceID", "==", params.workspaceId)
     );
 
-
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       setDocumentList([]);
       for (const doc of querySnapshot.docs) {
@@ -52,7 +52,8 @@ const SideNavComponent = ({
   const addDocument = async () => {
     if (documentList.length >= MAX_FILE) {
       toast.error("Upgrade to add more files", {
-        description: "You have reached the maximum limit of files. Upgrade your plan to add unlimited files",
+        description:
+          "You have reached the maximum limit of files. Upgrade your plan to add unlimited files",
         action: {
           label: "Upgrade",
           onClick: () => {
@@ -96,7 +97,9 @@ const SideNavComponent = ({
     <div className="h-screen md:w-72 md:block hidden fixed bg-blue-50 p-5 shadow-md">
       <div className="flex justify-between items-center">
         <LogoComponent />
-        <Bell className="w-5 h-5 text-gray-500" />
+        <NotificationBoxComponent>
+          <Bell className="w-5 h-5 text-gray-500" />
+        </NotificationBoxComponent>
       </div>
       <hr className="my-5" />
       <div>

@@ -32,7 +32,7 @@ const DocumentRichEditorComponent = ({
       const docRef = doc(db, "DocumentOutputs", documentId);
       try {
         await updateDoc(docRef, {
-          output: data?.blocks ?? [],
+          output: JSON.stringify(data?.blocks ?? []),
           editedBy: user?.primaryEmailAddress?.emailAddress || "",
         });
       } catch (error) {
@@ -50,7 +50,7 @@ const DocumentRichEditorComponent = ({
           if (data) {
             setDocumentOutput(data.output);
             if (editorRef.current) {
-              editorRef.current.render({ blocks: data.output });
+              editorRef.current.render({ blocks: JSON.parse(data.output) });
             }
           }
         }

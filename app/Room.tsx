@@ -24,7 +24,7 @@ export function Room({
 }) {
   return (
     <LiveblocksProvider
-      authEndpoint="/api/liveblocks-auth"
+      authEndpoint={`/api/liveblocks-auth?roomId=${params.workspaceId}_${params.documentId}`}
       resolveUsers={async ({ userIds }) => {
         const q = query(collection(db, "Users"), where("email", "in", userIds));
         const snapshot = await getDocs(q);
