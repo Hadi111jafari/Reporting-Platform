@@ -637,6 +637,11 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.5.tgz#105c37d9d9620ce69b7f692a20c821bf1ad2cbf9"
   integrity sha512-sTcG+QZ6fdEUObICavU+aB3Mp8HY4n14wYHdxK4fXjPmv3PXZZeY5RaguJmGyeH/CJQhX3fqKUtS4qc1LoHwhQ==
 
+"@google/generative-ai@^0.16.0":
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/@google/generative-ai/-/generative-ai-0.16.0.tgz#3d8cea2faf08dd8c249fa0726c9c7c460f65bb5f"
+  integrity sha512-doB5ZNxS6m+jUZqaLCeYXfBZCdq6Ho0ibkq5/17xe1qAUZpCLWlvCDGtqFPqqO+yezNmvGatS0KhV22yiOT3DA==
+
 "@grpc/grpc-js@~1.9.0":
   version "1.9.15"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.9.15.tgz#433d7ac19b1754af690ea650ab72190bd700739b"
@@ -2625,6 +2630,11 @@ inherits@2:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
+
+install@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/install/-/install-0.13.0.tgz#6af6e9da9dd0987de2ab420f78e60d9c17260776"
+  integrity sha512-zDml/jzr2PKU9I8J/xyZBQn8rPCAY//UOYNmR01XwNwyfhEWObo2SWfSl1+0tm1u6PhxLwDnfsT/6jB7OUxqFA==
 
 internal-slot@^1.0.4, internal-slot@^1.0.7:
   version "1.0.7"
