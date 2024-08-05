@@ -24,7 +24,7 @@ import { toast } from "sonner";
 const SideNavComponent = ({
   params,
 }: {
-  params: { workspaceId: string; documentId: string };
+  params: { workspaceId: string; documentId?: string };
 }) => {
   const [documentList, setDocumentList] = useState<DocumentData[]>([]);
   const [isLoading, setIsLoading] = useState(false);

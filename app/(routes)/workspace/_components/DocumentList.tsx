@@ -11,12 +11,11 @@ const DocumentListComponent = ({
   params,
 }: {
   documentList: DocumentData[];
-  params: { workspaceId: string; documentId: string };
+  params: { workspaceId: string; documentId?: string };
 }) => {
   const router = useRouter();
 
   const onDeleteDocument = async (docId: string) => {
-    console.info("Delete document", docId);
     try {
       await deleteDoc(doc(db, "WorkspaceDocuments", docId));
       toast.success("Document deleted successfully");
