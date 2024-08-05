@@ -21,6 +21,10 @@ const DocumentRichEditorComponent = ({
   documentId: string;
 }) => {
   const editorRef = useRef<EditorJS | null>(null);
+  const [documentOutput, setDocumentOutput] = useState([]);
+
+  let isFetched = false;
+
   const { user } = useUser();
 
   const saveDocument = useCallback(async () => {
@@ -30,7 +34,7 @@ const DocumentRichEditorComponent = ({
       try {
         await updateDoc(docRef, {
           output: data?.blocks ?? [],
-          editedBy: user?.primaryEmailAddress?.emailAddress || '',
+          editedBy: user?.primaryEmailAddress?.emailAddress || "",
         });
       } catch (error) {
         console.error("Error updating document: ", error);
@@ -38,12 +42,33 @@ const DocumentRichEditorComponent = ({
     }
   }, [documentId, user?.primaryEmailAddress?.emailAddress]);
 
+  const getDocumentOuput = useCallback(() => {
+    try {
+      const snapshot = onSnapshot(
+        doc(db, "DocumentOutputs", documentId),
+        (doc) => {
+          const data = doc.data();
+          if (data) {
+            setDocumentOutput(data.output);
+            if (editorRef.current) {
+              editorRef.current.render({ blocks: data.output });
+            }
+          }
+        }
+      );
+    } catch (error) {
+      console.error("Error getting document: ", error);
+    }
+  }, [documentId]);
+
   const initializeEditor = useCallback(() => {
     if (!editorRef.current) {
       editorRef.current = new EditorJS({
         onChange: () => {
           saveDocument();
         },
+        onReady: () => getDocumentOuput(),
+        autofocus: true,
         holder: "editorjs",
         tools: {
           header: Header,
@@ -60,29 +85,7 @@ const DocumentRichEditorComponent = ({
         },
       });
     }
-  }, [saveDocument]);
-
-  const getDocumentOuput = useCallback(() => {
-    try {
-      const snapshot = onSnapshot(
-        doc(db, "DocumentOutputs", documentId),
-        (doc) => {
-          const data = doc.data();
-          if(data){
-            if (editorRef.current) {
-              editorRef.current.render({ blocks: data.output });
-            }
-          }
-        }
-      );
-    } catch (error) {
-      console.error("Error getting document: ", error);
-    }
-  }, [documentId]);
-
-  useEffect(() => {
-    getDocumentOuput();
-  }, [getDocumentOuput]);
+  }, [saveDocument, getDocumentOuput]);
 
   useEffect(() => {
     initializeEditor();
