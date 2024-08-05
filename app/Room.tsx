@@ -34,6 +34,21 @@ export function Room({
         });
         return userList as any;
       }}
+      resolveMentionSuggestions={async ({ text, roomId }) => {
+        
+        const q = query(collection(db, "Users"), where("email", "!=", null));
+        const snapshot = await getDocs(q);
+        let userList: DocumentData[] = [];
+        snapshot.forEach((doc) => {
+          userList.push(doc.data());
+        });
+
+        if (text) {
+          userList = userList.filter((user) => user.name.includes(text));
+    
+        }
+        return userList.map((user) => user.name);
+      }}
     >
       <RoomProvider id={`${params.workspaceId}_${params.documentId}`}>
         <ClientSideSuspense fallback={<div>Loading…</div>}>
