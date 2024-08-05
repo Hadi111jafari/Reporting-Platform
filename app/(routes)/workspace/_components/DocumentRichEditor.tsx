@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import EditorJS, { OutputData } from "@editorjs/editorjs";
+import EditorJS from "@editorjs/editorjs";
 import Header from "@editorjs/header";
 import Delimiter from "@editorjs/delimiter";
 import Alert from "editorjs-alert";
