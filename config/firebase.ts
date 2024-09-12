@@ -7,11 +7,11 @@ import { getFirestore } from "firebase/firestore"
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: "loop-clone-6e532.firebaseapp.com",
-  projectId: "loop-clone-6e532",
-  storageBucket: "loop-clone-6e532.appspot.com",
-  messagingSenderId: "531101658678",
-  appId: "1:531101658678:web:5d6ebbbcb4ef0e2a957297"
+  authDomain: "interactive-reporting-platform.firebaseapp.com",
+  projectId: "interactive-reporting-platform",
+  storageBucket: "interactive-reporting-platform.appspot.com",
+  messagingSenderId: "285476826141",
+  appId: "1:285476826141:web:7c17038b6bed3753f26af4"
 };
 
 // Initialize Firebase
